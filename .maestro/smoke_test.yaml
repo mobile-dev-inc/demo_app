@@ -1,0 +1,17 @@
+appId: pl.baftek.discoverrudy
+name: Smoke test
+---
+- launchApp:
+    clearState: true
+- tapOn: Next
+- tapOn: Next
+- tapOn: Next
+- tapOn: Done
+- tapOn: Rudnik
+- tapOn: Download
+- tapOn: Open
+- tapOn: Profile
+- tapOn: Info
+- tapOn: Discover
+- tapOn: .*Open map.*
+- tapOn: Back

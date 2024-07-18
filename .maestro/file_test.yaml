@@ -1,0 +1,7 @@
+appId: pl.baftek.discoverrudy
+---
+- launchApp:
+    clearState: true
+- addMedia:
+  - assets/map_hybrid.png
+

@@ -1,0 +1,7 @@
+appId: https://garden.pacia.tech
+---
+- launchApp
+- tapOn:
+    id: title-header
+- tapOn:
+    id: non-existent-id

@@ -1,0 +1,23 @@
+appId: pl.baftek.discoverrudy
+name: Geolocation test
+---
+- launchApp:
+    clearState: true
+- setLocation:
+    latitude: 50.1947386
+    longitude: 18.4481962
+- tapOn: Next
+- tapOn: Next
+- tapOn: Next
+- tapOn: Done
+- tapOn: Rudy
+- tapOn: Download
+- tapOn: Open
+- scrollUntilVisible:
+    element:
+      text: .*Monuments.*
+- tapOn: .*Monuments.*
+- tapOn: Select sort mode
+- tapOn: Most nearby
+- tapOn: .*Old Abbey.*
+- assertVisible: You are 33 m away

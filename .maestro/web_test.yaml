@@ -1,0 +1,7 @@
+appId: "https://maestro.mobile.dev"
+---
+- launchApp
+- tapOn: "Ask or Search"
+- inputText: "Tap On View"
+- tapOn: ".*tapOn.*"
+- assertVisible: "In order to tap on a view with the text \"My text\".*"

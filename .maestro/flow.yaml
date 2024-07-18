@@ -1,0 +1,7 @@
+appId: org.wikimedia.wikipedia
+# appId: org.wikipedia
+---
+- launchApp
+- runScript: "scripts/setSearchTerm.js"
+- tapOn: "Search Wikipedia"
+- inputText: ${output.searchTerm}
