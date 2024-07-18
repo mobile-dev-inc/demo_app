@@ -1,0 +1,8 @@
+appId: com.example.example
+name: Issue 565 (relative)
+---
+- launchApp:
+    clearState: false
+- tapOn: Increment
+- tapOn: Increment
+- assertVisible: 2

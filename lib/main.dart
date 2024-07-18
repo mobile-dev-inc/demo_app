@@ -20,7 +20,7 @@ class HackyDrawPointersBinding extends IntegrationTestWidgetsFlutterBinding {
 }
 
 void main() {
-  final binding = HackyDrawPointersBinding.ensureInitialized();
+  HackyDrawPointersBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
