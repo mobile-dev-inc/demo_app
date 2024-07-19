@@ -1,8 +1,7 @@
 appId: com.example.example
 name: Issue 565 (tap on FAB)
 ---
-- launchApp:
-    clearState: false
+- launchApp
 - tapOn:
     id: fabAddIcon
 - tapOn:
