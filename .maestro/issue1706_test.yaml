@@ -1,7 +1,16 @@
 appId: com.example.example
-name: Issue 1706 (absolute)
+name: Issue 1706 
 ---
 - launchApp:
     clearState: true
 - addMedia:
   - assets/image.png
+- launchApp: com.google.android.documentsui
+- tapOn: Show roots
+- tapOn: Images
+- tapOn: Pictures
+- assertVisible: image.png
+- longPressOn: image.png
+- tapOn: Search # wtf?
+- tapOn: OK
+- assertNotVisible: image.png

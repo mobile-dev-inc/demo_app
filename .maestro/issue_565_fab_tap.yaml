@@ -1,5 +1,5 @@
 appId: com.example.example
-name: Issue 565 (relative)
+name: Issue 565 (fab tap)
 ---
 - launchApp:
     clearState: false
