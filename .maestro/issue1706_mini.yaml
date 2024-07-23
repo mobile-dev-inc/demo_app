@@ -1,0 +1,7 @@
+appId: com.example.example
+name: Issue 1706 
+---
+- launchApp:
+    clearState: true
+- addMedia:
+  - assets/image.png

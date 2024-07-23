@@ -5,7 +5,9 @@ name: Issue 1706
     clearState: true
 - addMedia:
   - assets/image.png
-- launchApp: com.google.android.documentsui
+- launchApp: com.android.documentsui
+  # "com.android.documentsui" for API 29 and below
+  # "com.google.android.documentsui" for API 30 and above
 - tapOn: Show roots
 - tapOn: Images
 - tapOn: Pictures
