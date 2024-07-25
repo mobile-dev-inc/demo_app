@@ -3,11 +3,19 @@ name: Issue 565 (absolute)
 ---
 - launchApp:
     clearState: false
+- tapOn: Swipe Test
 - swipe:  
-    start: 50%, 10%
+    start: 50%, 15%
     end: 15%, 50%
     duration: 2000
 - swipe:  
     start: 15%, 50%
-    end: 90%, 90%
+    end: 85%, 85%
     duration: 2000
+- swipe:  
+    start: 85%, 85%
+    end: 85%, 50%
+    duration: 2000
+- tapOn:
+    point: 85%, 50%
+- assertVisible: All green

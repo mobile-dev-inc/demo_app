@@ -9,6 +9,7 @@ class SwipeTestPage extends StatefulWidget {
 
 class SwipeTestPageState extends State<SwipeTestPage> {
   List<Color> containerColors = [Colors.red, Colors.red, Colors.red];
+  bool finished = false;
 
   void _onContainerTouched(int index) {
     setState(() {
@@ -20,6 +21,7 @@ class SwipeTestPageState extends State<SwipeTestPage> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
+    const size = 100.0;
 
     return Scaffold(
       body: SafeArea(
@@ -34,50 +36,56 @@ class SwipeTestPageState extends State<SwipeTestPage> {
               ),
             ),
             Positioned(
-              top: height * 0.1,
-              left: width * 0.5,
-              child: Listener(
-                onPointerSignal: (_) => _onContainerTouched(0),
-                onPointerHover: (_) => _onContainerTouched(0),
-                onPointerDown: (_) => _onContainerTouched(0),
-                onPointerUp: (_) => _onContainerTouched(0),
+              top: height * 0.15 - size / 2,
+              left: width * 0.5 - size / 2,
+              child: GestureDetector(
+                onTapDown: (_) => _onContainerTouched(0),
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: size,
+                  height: size,
                   color: containerColors[0],
                 ),
               ),
             ),
             Positioned(
-              top: height * 0.5,
-              left: width * 0.1,
-              child: Listener(
-                onPointerSignal: (_) => _onContainerTouched(1),
-                onPointerHover: (_) => _onContainerTouched(1),
-                onPointerDown: (_) => _onContainerTouched(1),
-                onPointerUp: (_) => _onContainerTouched(1),
+              top: height * 0.5 - size / 2,
+              left: width * 0.15 - size / 2,
+              child: GestureDetector(
+                onTapDown: (_) => _onContainerTouched(1),
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: size,
+                  height: size,
                   color: containerColors[1],
                 ),
               ),
             ),
             Positioned(
-              top: height * 0.9,
-              left: width * 0.9,
-              child: Listener(
-                onPointerSignal: (_) => _onContainerTouched(2),
-                onPointerHover: (_) => _onContainerTouched(2),
-                onPointerDown: (_) => _onContainerTouched(2),
-                onPointerUp: (_) => _onContainerTouched(2),
+              top: height * 0.85 - size / 2,
+              left: width * 0.85 - size / 2,
+              child: GestureDetector(
+                onTapDown: (_) => _onContainerTouched(2),
                 child: Container(
-                  width: 50,
-                  height: 50,
+                  width: size,
+                  height: size,
                   color: containerColors[2],
                 ),
               ),
             ),
+            Positioned(
+              top: height * 0.5 - size / 2,
+              left: width * 0.85 - size / 2,
+              child: GestureDetector(
+                onTapDown: (_) => setState(() => finished = true),
+                child: Container(
+                  width: size,
+                  height: size,
+                  color: Colors.grey,
+                  child: const Text('End here!'),
+                ),
+              ),
+            ),
+            if (containerColors.every((c) => c == Colors.green) && finished)
+              const Center(child: Text('All green'))
           ],
         ),
       ),

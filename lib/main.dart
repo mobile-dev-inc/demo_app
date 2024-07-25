@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (_) => const SwipeTestPage()),
                 );
               },
-              child: const Text('Go to Swipe Test'),
+              child: const Text('Swipe Test'),
             ),
             const Text(
               'You have pushed the button this many times',
