@@ -1,0 +1,13 @@
+appId: com.example.example
+name: Issue 565 (absolute)
+---
+- launchApp:
+    clearState: false
+- swipe:  
+    start: 50%, 10%
+    end: 15%, 50%
+    duration: 2000
+- swipe:  
+    start: 15%, 50%
+    end: 90%, 90%
+    duration: 2000
