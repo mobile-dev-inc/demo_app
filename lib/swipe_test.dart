@@ -10,6 +10,12 @@ class SwipeTestPage extends StatefulWidget {
 class SwipeTestPageState extends State<SwipeTestPage> {
   List<Color> containerColors = [Colors.red, Colors.red, Colors.red];
 
+  void _onContainerTouched(int index) {
+    setState(() {
+      containerColors = [...containerColors]..[index] = Colors.green;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -30,12 +36,11 @@ class SwipeTestPageState extends State<SwipeTestPage> {
             Positioned(
               top: height * 0.1,
               left: width * 0.5,
-              child: GestureDetector(
-                onTapDown: (details) {
-                  setState(() {
-                    containerColors = [...containerColors]..[0] = Colors.green;
-                  });
-                },
+              child: Listener(
+                onPointerSignal: (_) => _onContainerTouched(0),
+                onPointerHover: (_) => _onContainerTouched(0),
+                onPointerDown: (_) => _onContainerTouched(0),
+                onPointerUp: (_) => _onContainerTouched(0),
                 child: Container(
                   width: 50,
                   height: 50,
@@ -46,12 +51,11 @@ class SwipeTestPageState extends State<SwipeTestPage> {
             Positioned(
               top: height * 0.5,
               left: width * 0.1,
-              child: GestureDetector(
-                onTapDown: (details) {
-                  setState(() {
-                    containerColors = [...containerColors]..[1] = Colors.green;
-                  });
-                },
+              child: Listener(
+                onPointerSignal: (_) => _onContainerTouched(1),
+                onPointerHover: (_) => _onContainerTouched(1),
+                onPointerDown: (_) => _onContainerTouched(1),
+                onPointerUp: (_) => _onContainerTouched(1),
                 child: Container(
                   width: 50,
                   height: 50,
@@ -62,12 +66,11 @@ class SwipeTestPageState extends State<SwipeTestPage> {
             Positioned(
               top: height * 0.9,
               left: width * 0.9,
-              child: GestureDetector(
-                onTapDown: (details) {
-                  setState(() {
-                    containerColors = [...containerColors]..[2] = Colors.green;
-                  });
-                },
+              child: Listener(
+                onPointerSignal: (_) => _onContainerTouched(2),
+                onPointerHover: (_) => _onContainerTouched(2),
+                onPointerDown: (_) => _onContainerTouched(2),
+                onPointerUp: (_) => _onContainerTouched(2),
                 child: Container(
                   width: 50,
                   height: 50,
