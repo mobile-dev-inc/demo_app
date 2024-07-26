@@ -4,10 +4,10 @@ class SwipeTestPage extends StatefulWidget {
   const SwipeTestPage({super.key});
 
   @override
-  SwipeTestPageState createState() => SwipeTestPageState();
+  State<SwipeTestPage> createState() => _SwipeTestPageState();
 }
 
-class SwipeTestPageState extends State<SwipeTestPage> {
+class _SwipeTestPageState extends State<SwipeTestPage> {
   List<Color> containerColors = [Colors.red, Colors.red, Colors.red];
   bool finished = false;
 

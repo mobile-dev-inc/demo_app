@@ -1,3 +1,4 @@
+import 'package:demo_app/form_test.dart';
 import 'package:demo_app/swipe_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -77,6 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text('Swipe Test'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const FormTestPage()),
+                );
+              },
+              child: const Text('Form Test'),
             ),
             const Text(
               'You have pushed the button this many times',
