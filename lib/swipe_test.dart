@@ -38,12 +38,15 @@ class SwipeTestPageState extends State<SwipeTestPage> {
             Positioned(
               top: height * 0.15 - size / 2,
               left: width * 0.5 - size / 2,
-              child: GestureDetector(
-                onTapDown: (_) => _onContainerTouched(0),
-                child: Container(
-                  width: size,
-                  height: size,
-                  color: containerColors[0],
+              child: Semantics(
+                label: 'Container 0',
+                child: GestureDetector(
+                  onTapDown: (_) => _onContainerTouched(0),
+                  child: Container(
+                    width: size,
+                    height: size,
+                    color: containerColors[0],
+                  ),
                 ),
               ),
             ),
@@ -52,10 +55,13 @@ class SwipeTestPageState extends State<SwipeTestPage> {
               left: width * 0.15 - size / 2,
               child: GestureDetector(
                 onTapDown: (_) => _onContainerTouched(1),
-                child: Container(
-                  width: size,
-                  height: size,
-                  color: containerColors[1],
+                child: Semantics(
+                  label: 'Container 1',
+                  child: Container(
+                    width: size,
+                    height: size,
+                    color: containerColors[1],
+                  ),
                 ),
               ),
             ),
@@ -64,10 +70,13 @@ class SwipeTestPageState extends State<SwipeTestPage> {
               left: width * 0.85 - size / 2,
               child: GestureDetector(
                 onTapDown: (_) => _onContainerTouched(2),
-                child: Container(
-                  width: size,
-                  height: size,
-                  color: containerColors[2],
+                child: Semantics(
+                  label: 'Container 2',
+                  child: Container(
+                    width: size,
+                    height: size,
+                    color: containerColors[2],
+                  ),
                 ),
               ),
             ),
