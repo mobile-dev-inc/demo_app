@@ -1,5 +1,5 @@
 appId: com.example.example
-name: Issue 565 (absolute)
+name: Issue 565 (swipe)
 ---
 - launchApp:
     clearState: false
