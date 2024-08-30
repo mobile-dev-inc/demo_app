@@ -1,16 +1,18 @@
 # demo_app
 
-A new Flutter project.
+A simple cross-platform Android & iOS app, built with Flutter, for testing 
+[Maestro framework](https://github.com/mobile-dev-inc/maestro).
 
-## Getting Started
+### How does it work?
 
-This project is a starting point for a Flutter application.
+1. Binaries of this app are built
+2. Binaries are uploaded to our GCS bucket
+3. Link to the binaries in GCS bucket are in [e2e/manifest.txt][manifest]
 
-A few resources to get you started if this is your first Flutter project:
+Whenever E2E pipeline of Maestro runs, it downloads the binaries from the GCS
+and runs flows in the [e2e/workspaces/demo_app]
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+[workspace]: 
+[manifest]: https://github.com/mobile-dev-inc/maestro/blob/main/e2e/manifest.txt
