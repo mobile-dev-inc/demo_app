@@ -1,0 +1,66 @@
+name: deploy
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+
+jobs:
+  main:
+    runs-on: macos-latest
+
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: zulu
+          java-version: 21
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+
+      - name: Download pub dependencies
+        run: flutter pub get
+
+      - name: Build Android app
+        run: flutter build apk --debug
+
+      - name: Build iOS app
+        run: flutter build ios --debug --simulator
+
+      - name: Upload iOS app to artifacts
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: demo_app.apk
+          path: build/app/outputs/flutter-apk/demo_app.apk
+          retention-days: 1
+
+      - name: Upload iOS artifacts
+        uses: actions/upload-artifact@v4
+        if: success() || failure()
+        with:
+          name: demo_app.app
+          path: build/ios/iphonesimulator/demo_app.app
+          retention-days: 1
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          # These credentials should only have write access to the bucket
+          credentials_json: ${{ secrets.GCP_MOBILEDEV_BUCKET_CREDENTIALS }}
+
+      - name: Set up Google Cloud CLI
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          version: ">= 484.0.0"
+          project_id: perf-dev-289002
+
+      - name: Upload apps to public Google Cloud Storage bucket
+        run: ./upload_to_gcs
