@@ -22,12 +22,14 @@ class _NestingScreenState extends State<NestingScreen> {
         children: [
           Semantics(
             identifier: 'level-0',
+            explicitChildNodes: true,
             child: Container(
               padding: padding,
               child: Stack(
                 children: [
                   Semantics(
                     identifier: 'level-1',
+                    explicitChildNodes: true,
                     child: Container(
                       color: Colors.blue,
                       padding: padding,
@@ -35,6 +37,7 @@ class _NestingScreenState extends State<NestingScreen> {
                         children: [
                           Semantics(
                             identifier: 'level-2',
+                            explicitChildNodes: true,
                             child: Container(
                               color: Colors.orange,
                               padding: padding,
