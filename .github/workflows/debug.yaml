@@ -1,11 +1,8 @@
 # This action is for playing around with GHA and has no use outside of that.
-name: main
+name: debug
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - master
 
 jobs:
   tail_and_check:
