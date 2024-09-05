@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class FormTestPage extends StatefulWidget {
-  const FormTestPage({super.key});
+class FormScreen extends StatefulWidget {
+  const FormScreen({super.key});
 
   @override
-  State<FormTestPage> createState() => _FormTestPageState();
+  State<FormScreen> createState() => _FormScreenState();
 }
 
-class _FormTestPageState extends State<FormTestPage> {
+class _FormScreenState extends State<FormScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 

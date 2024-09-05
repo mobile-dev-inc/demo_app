@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SwipeTestPage extends StatefulWidget {
-  const SwipeTestPage({super.key});
+class SwipingScreen extends StatefulWidget {
+  const SwipingScreen({super.key});
 
   @override
-  State<SwipeTestPage> createState() => _SwipeTestPageState();
+  State<SwipingScreen> createState() => _SwipingScreenState();
 }
 
-class _SwipeTestPageState extends State<SwipeTestPage> {
+class _SwipingScreenState extends State<SwipingScreen> {
   List<Color> containerColors = [Colors.red, Colors.red, Colors.red];
   bool finished = false;
 

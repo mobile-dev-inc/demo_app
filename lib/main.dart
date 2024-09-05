@@ -1,8 +1,8 @@
-import 'package:demo_app/form_test.dart';
+import 'package:demo_app/form_screen.dart';
 import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
 import 'package:demo_app/nesting_screen.dart';
-import 'package:demo_app/swipe_test.dart';
+import 'package:demo_app/swiping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const SwipeTestPage()),
+                  MaterialPageRoute(builder: (_) => const SwipingScreen()),
                 );
               },
               child: const Text('Swipe Test'),
@@ -93,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const FormTestPage()),
+                  MaterialPageRoute(builder: (_) => const FormScreen()),
                 );
               },
               child: const Text('Form Test'),
