@@ -24,7 +24,8 @@ class _SwipingScreenState extends State<SwipingScreen> {
     const size = 100.0;
 
     return Scaffold(
-      body: SafeArea(
+      body: Container(
+        color: Theme.of(context).colorScheme.surfaceContainer,
         child: Stack(
           children: [
             Positioned(
