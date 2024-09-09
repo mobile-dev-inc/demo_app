@@ -1,4 +1,4 @@
-name: deploy
+name: publish
 
 on:
   workflow_dispatch:
@@ -39,7 +39,8 @@ jobs:
         if: success() || failure()
         with:
           name: demo_app.apk
-          path: build/app/outputs/flutter-apk/demo_app.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
           retention-days: 1
 
       - name: Upload iOS artifacts
@@ -47,7 +48,8 @@ jobs:
         if: success() || failure()
         with:
           name: demo_app.app
-          path: build/ios/iphonesimulator/demo_app.app
+          path: build/ios/iphonesimulator/Runner.app
+          if-no-files-found: error
           retention-days: 1
 
       - name: Authenticate to Google Cloud
