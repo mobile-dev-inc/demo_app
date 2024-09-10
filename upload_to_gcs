@@ -14,11 +14,9 @@ gsutil acl ch -r -u AllUsers:R "$UPLOAD_PATH/demo_app.apk"
 # Upload iOS app
 cd build/ios/iphonesimulator
 cp -r Runner.app demo_app.app
-cd demo_app.app
 
-zip -r -q ../demo_app.zip . -x "/**/.*" -x "__MACOSX"
+zip -r -q demo_app.zip demo_app.app
 
-cd ..
 cd ../../../
 
 gsutil cp build/ios/iphonesimulator/demo_app.zip "$UPLOAD_PATH/demo_app.zip"
