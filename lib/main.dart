@@ -1,3 +1,4 @@
+import 'package:demo_app/defects_screen.dart';
 import 'package:demo_app/form_screen.dart';
 import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
@@ -72,6 +73,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (_) => const DefectsScreen()),
+                );
+              },
+              child: const Text('Defects Test'),
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).push(
