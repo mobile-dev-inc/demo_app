@@ -19,11 +19,14 @@ class _InputScreenState extends State<InputScreen> {
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: TextField(
-            controller: _inputController,
-            maxLines: null,
-            decoration: const InputDecoration(
-              labelText: 'Lorem Ipsum',
+          child: Semantics(
+            identifier: 'textInput',
+            child: TextField(
+              controller: _inputController,
+              maxLines: null,
+              decoration: const InputDecoration(
+                labelText: 'Lorem Ipsum',
+              ),
             ),
           ),
         ),
