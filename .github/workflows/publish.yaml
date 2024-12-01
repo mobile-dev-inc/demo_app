@@ -34,7 +34,7 @@ jobs:
       - name: Build iOS app
         run: flutter build ios --debug --simulator
 
-      - name: Upload iOS app to artifacts
+      - name: Upload Android artifacts
         uses: actions/upload-artifact@v4
         if: success() || failure()
         with:
