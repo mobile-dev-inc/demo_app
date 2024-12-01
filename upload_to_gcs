@@ -5,7 +5,7 @@ set -eu
 UPLOAD_PATH="gs://mobile.dev/cli_e2e"
 
 cd build/app/outputs/flutter-apk
-cp app-debug.apk demo_app.apk
+cp app-*.apk demo_app.apk # Upload debug or release, whichever was built
 cd -
 
 gsutil cp build/app/outputs/flutter-apk/demo_app.apk "$UPLOAD_PATH/demo_app.apk"
