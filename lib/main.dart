@@ -8,6 +8,7 @@ import 'package:demo_app/swiping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:demo_app/launch_arguments_screen.dart';
 
 class HackyDrawPointersBinding extends IntegrationTestWidgetsFlutterBinding {
   HackyDrawPointersBinding() {
@@ -17,7 +18,7 @@ class HackyDrawPointersBinding extends IntegrationTestWidgetsFlutterBinding {
     HackyDrawPointersBinding().framePolicy =
         LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
     assert(
-      WidgetsBinding.instance is HackyDrawPointersBinding,
+    WidgetsBinding.instance is HackyDrawPointersBinding,
     );
     return WidgetsBinding.instance;
   }
@@ -115,6 +116,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 child: const Text('Input Test'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const LaunchArgumentsScreen()),
+                  );
+                },
+                child: const Text('Launch Argument Test'),
               ),
               ElevatedButton(
                 onPressed: () {
