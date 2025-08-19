@@ -8,6 +8,7 @@ import 'package:demo_app/swiping_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
+import 'package:flutter_launch_arguments/flutter_launch_arguments.dart';
 
 class HackyDrawPointersBinding extends IntegrationTestWidgetsFlutterBinding {
   HackyDrawPointersBinding() {
@@ -55,9 +56,33 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  late final FlutterLaunchArguments _flutterLaunchArgumentsPlugin;
 
-  void _incrementCounter() {
+  int _counter = 0;
+  int _delay = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _flutterLaunchArgumentsPlugin = FlutterLaunchArguments();
+    _initializeVars();
+  }
+
+  Future<void> _initializeVars() async {
+    final counterValue = await _flutterLaunchArgumentsPlugin.getInt('initialCounter');
+    print('Initial counter value: $counterValue');
+
+    final delayValue = await _flutterLaunchArgumentsPlugin.getInt('delay');
+    print('Initial delay value: $delayValue');
+
+    setState(() {
+      _counter = counterValue ?? 0;
+      _delay = delayValue ?? 0;
+    });
+  }
+
+  Future<void> _incrementCounter() async {
+    await Future.delayed(Duration(seconds: _delay));
     setState(() {
       _counter++;
     });
