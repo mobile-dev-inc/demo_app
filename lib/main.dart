@@ -5,6 +5,7 @@ import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
 import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/swiping_screen.dart';
+import 'package:demo_app/shake_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -140,6 +141,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 child: const Text('Input Test'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const ShakeScreen()),
+                  );
+                },
+                child: const Text('Shake Test'),
               ),
               ElevatedButton(
                 onPressed: () {
