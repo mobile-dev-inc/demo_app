@@ -53,11 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> _initializeVars() async {
     final counterValue = await _flutterLaunchArgumentsPlugin.getInt('initialCounter');
-    print('Initial counter value: $counterValue');
-
     final delayValue = await _flutterLaunchArgumentsPlugin.getInt('delay');
-    print('Initial delay value: $delayValue');
-
+    
     setState(() {
       _counter = counterValue ?? 0;
       _delay = delayValue ?? 0;
