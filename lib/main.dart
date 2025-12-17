@@ -5,30 +5,13 @@ import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
 import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/swiping_screen.dart';
+import 'package:demo_app/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
 import 'package:flutter_launch_arguments/flutter_launch_arguments.dart';
 
-class HackyDrawPointersBinding extends IntegrationTestWidgetsFlutterBinding {
-  HackyDrawPointersBinding() {
-    framePolicy = LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
-  }
-  static WidgetsBinding ensureInitialized() {
-    HackyDrawPointersBinding().framePolicy =
-        LiveTestWidgetsFlutterBindingFramePolicy.fullyLive;
-    assert(
-      WidgetsBinding.instance is HackyDrawPointersBinding,
-    );
-    return WidgetsBinding.instance;
-  }
-
-  @override
-  TestBindingEventSource get pointerEventSource => TestBindingEventSource.test;
-}
 
 void main() {
-  HackyDrawPointersBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -156,6 +139,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 child: const Text('issue 1619 repro'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const WebViewExample()),
+                  );
+                },
+                child: const Text('Webview'),
               ),
               const Text(
                 'You have pushed the button this many times',
