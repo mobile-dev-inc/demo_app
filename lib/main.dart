@@ -6,6 +6,7 @@ import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
 import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/swiping_screen.dart';
+import 'package:demo_app/drag_screen.dart';
 import 'package:demo_app/webview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -105,6 +106,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   );
                 },
                 child: const Text('Swipe Test'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const DragScreen()),
+                  );
+                },
+                child: const Text('Drag Test'),
               ),
               ElevatedButton(
                 onPressed: () {
