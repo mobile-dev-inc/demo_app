@@ -1,4 +1,6 @@
 appId: com.example.example
+tags:
+  - ios_device_configuration
 ---
 # Verifies keyboard autocorrect is disabled
 #

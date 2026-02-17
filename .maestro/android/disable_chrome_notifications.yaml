@@ -1,6 +1,5 @@
 # Verifies Chrome notifications popup is disabled
 #
-# Configuration: setup_maestro_avd.sh
 #   adb shell pm grant com.android.chrome android.permission.POST_NOTIFICATIONS
 #   adb shell appops set com.android.chrome POST_NOTIFICATION deny
 

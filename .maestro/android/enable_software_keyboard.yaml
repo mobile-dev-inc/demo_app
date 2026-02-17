@@ -1,6 +1,5 @@
 # Verifies software keyboard shows even with hardware keyboard attached
 #
-# Configuration: setup_maestro_avd.sh
 #   adb shell settings put secure show_ime_with_hard_keyboard 1
 
 appId: com.android.chrome

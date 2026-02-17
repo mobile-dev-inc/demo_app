@@ -1,7 +1,7 @@
 appId: com.example.example
 name: Notifications Permission Auto-Grant
-permissions:
-  notifications: allow
+tags:
+  - ios_device_configuration
 ---
 # Verifies notification permissions are auto-granted by auto-tapping the permissions dialog.
 # This is internally via XCUITest driver on maestro.
