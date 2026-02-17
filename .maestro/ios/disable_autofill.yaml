@@ -1,4 +1,5 @@
 appId: com.example.example
+name: Autofill password is disabled
 tags:
   - ios_device_configuration
 ---
