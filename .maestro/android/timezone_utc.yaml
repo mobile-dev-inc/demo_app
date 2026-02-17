@@ -1,0 +1,14 @@
+# Verifies timezone is set to UTC
+#
+# Configuration: AVD/emulator settings or adb shell commands
+# Expected: GMT+00:00 Coordinated Universal Time
+
+appId: com.android.settings
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element: System
+- tapOn: System
+- tapOn: Date & time
+- assertVisible: GMT+00:00 Coordinated Universal Time

@@ -1,0 +1,11 @@
+# Verifies WebView loads without ANR (Application Not Responding)
+#
+# Uses demo app to test WebView functionality
+
+appId: com.example.example
+---
+- launchApp:
+    clearState: true
+- scrollUntilVisible:
+    element: Webview Test
+- tapOn: Webview Test

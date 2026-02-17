@@ -5,8 +5,6 @@ appId: com.example.example
 # This test taps a password field and asserts that the "Passwords"
 # autofill option does NOT appear above the keyboard.
 #
-# Configuration: configure_ios_simulator.sh --autofill
-# Settings: allowPasswordAutoFill = NO, etc. in ConfigurationProfiles plists
 
 - launchApp:
     clearState: false

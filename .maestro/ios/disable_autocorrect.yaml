@@ -5,8 +5,6 @@ appId: com.example.example
 # This test types "teh " (common autocorrect trigger) and asserts
 # it stays "teh " instead of being corrected to "the ".
 #
-# Configuration: configure_ios_simulator.sh --keyboard
-# Setting: KeyboardAutocorrection = NO
 
 - launchApp:
     clearState: true

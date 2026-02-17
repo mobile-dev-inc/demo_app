@@ -1,0 +1,15 @@
+# Verifies Bluetooth is disabled
+#
+# Configuration: setup_maestro_avd.sh
+#   adb shell cmd bluetooth_manager disable
+#
+# Works for all APIs
+
+appId: com.android.settings
+---
+- launchApp:
+    clearState: true
+- tapOn: Connected devices
+- tapOn: Connection preferences
+- tapOn: Bluetooth
+- assertNotVisible: Device name
