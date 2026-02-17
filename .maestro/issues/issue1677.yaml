@@ -1,3 +1,7 @@
+## To reproduce: https://github.com/mobile-dev-inc/Maestro/issues/1677
+## Maestro should be able to find the child selector with id: child_ident
+## This fails right now with production maestro
+
 appId: com.example.example
 name: Issue 1677
 ---

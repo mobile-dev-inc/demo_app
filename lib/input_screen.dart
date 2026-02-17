@@ -9,25 +9,47 @@ class InputScreen extends StatefulWidget {
 
 class _InputScreenState extends State<InputScreen> {
   final TextEditingController _inputController = TextEditingController();
+  FocusNode? _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _focusNode?.dispose();
+    _inputController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lorem Ipsum'),
+        title: const Text('Input & Navigation'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: SingleChildScrollView(
-          child: Semantics(
-            identifier: 'textInput',
-            child: TextField(
-              controller: _inputController,
-              maxLines: null,
-              decoration: const InputDecoration(
-                labelText: 'Lorem Ipsum',
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Semantics(
+                identifier: 'textInput',
+                child: TextField(
+                  key: const ValueKey('input_test_field'),
+                  controller: _inputController,
+                  focusNode: _focusNode,
+                  maxLines: null,
+                  decoration: const InputDecoration(
+                    hintText: 'Test Input Field',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
         ),
       ),

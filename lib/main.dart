@@ -7,8 +7,11 @@ import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
 import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/swiping_screen.dart';
+import 'package:demo_app/sensors_screen.dart';
 import 'package:demo_app/webview.dart';
+import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_launch_arguments/flutter_launch_arguments.dart';
 
@@ -83,6 +86,15 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              if (Platform.isAndroid)
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const SensorsScreen()),
+                    );
+                  },
+                  child: const Text('Sensors'),
+                ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
@@ -121,7 +133,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (_) => const InputScreen()),
                   );
                 },
-                child: const Text('Input Test'),
+                child: const Text('Input/Keyboard'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  const channel = MethodChannel('com.example.demo_app/password_test');
+                  channel.invokeMethod('openPasswordTest');
+                },
+                child: const Text('Password autofill Test'),
               ),
               ElevatedButton(
                 onPressed: () {
@@ -145,7 +164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (_) => const WebViewExample()),
                   );
                 },
-                child: const Text('Webview'),
+                child: const Text('Webview Test'),
               ),
               ElevatedButton(
                 onPressed: () {
