@@ -9,6 +9,7 @@ import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/swiping_screen.dart';
 import 'package:demo_app/webview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_launch_arguments/flutter_launch_arguments.dart';
 
@@ -121,7 +122,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     MaterialPageRoute(builder: (_) => const InputScreen()),
                   );
                 },
-                child: const Text('Input Test'),
+                child: const Text('Input/Keyboard'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  const channel = MethodChannel('com.example.demo_app/password_test');
+                  channel.invokeMethod('openPasswordTest');
+                },
+                child: const Text('Password autofill Test'),
               ),
               ElevatedButton(
                 onPressed: () {

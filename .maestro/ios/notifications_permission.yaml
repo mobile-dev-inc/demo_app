@@ -3,10 +3,12 @@ name: Notifications Permission Auto-Grant
 permissions:
   notifications: allow
 ---
+# Verifies notification permissions are auto-granted by auto-tapping the permissions dialog.
+# This is internally via XCUITest driver on maestro.
 - launchApp
 - tapOn: Notifications Permission
 - tapOn:
     id: requestPermissionButton
-## This would trigger hierarchy call that should ideally grant permission automatically
+## This would trigger a hierarchy call that should ideally grant permission automatically
 - assertVisible: Notifications Permission
 - assertVisible: "Status: PermissionStatus.granted"
