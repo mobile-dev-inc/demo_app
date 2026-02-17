@@ -4,6 +4,8 @@
 # Requires camera emulation to be enabled in AVD config
 
 appId: com.android.camera2
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true

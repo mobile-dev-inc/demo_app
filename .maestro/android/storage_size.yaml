@@ -4,6 +4,8 @@
 # Expected: 8.0 GB total storage
 
 appId: com.android.settings
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true

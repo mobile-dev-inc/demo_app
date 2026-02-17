@@ -3,6 +3,8 @@
 # Uses demo app to test WebView functionality
 
 appId: com.example.example
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true

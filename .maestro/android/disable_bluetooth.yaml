@@ -6,6 +6,8 @@
 # Works for all APIs
 
 appId: com.android.settings
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true

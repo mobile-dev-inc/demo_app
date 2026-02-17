@@ -1,13 +1,11 @@
 # Verifies Chrome first-run welcome screen is disabled
 #
-# Configuration: setup_maestro_avd.sh
-#   adb shell 'echo "chrome --no-default-browser-check --no-first-run --disable-fre" > /data/local/chrome-command-line'
-#   adb shell 'echo "chrome --no-default-browser-check --no-first-run --disable-fre" > /data/local/tmp/chrome-command-line'
-#
 # Note: Does not work for API 34 - still shows "Welcome to Chrome"
 # Works for API 33 and below
 
 appId: com.android.chrome
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true

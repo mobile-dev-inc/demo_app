@@ -4,6 +4,8 @@
 #   adb shell settings put secure show_ime_with_hard_keyboard 1
 
 appId: com.android.chrome
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true

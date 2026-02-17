@@ -3,6 +3,8 @@
 # Basic health check - no specific configuration required
 
 appId: com.android.settings
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     appId: com.android.settings

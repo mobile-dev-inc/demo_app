@@ -4,6 +4,8 @@
 # Expected: GMT+00:00 Coordinated Universal Time
 
 appId: com.android.settings
+tags:
+  - android_device_configuration
 ---
 - launchApp:
     clearState: true
