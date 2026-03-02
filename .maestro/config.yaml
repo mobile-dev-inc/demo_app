@@ -1,3 +1,5 @@
 flows:
-  - ios/*
-  - android/*
+  - "*"
+  - "ios_device_configuration/*"
+  - "android_device_configuration/*"
+  - "web_flows/*"
