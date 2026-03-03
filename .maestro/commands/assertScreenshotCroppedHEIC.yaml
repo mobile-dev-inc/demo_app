@@ -7,6 +7,6 @@ tags:
 - waitForAnimationToEnd
 
 - assertScreenshot:
-    path: workspaces/demo_app/screenshots/assertScreenshotCroppedHEIC.heic
+    path: ./screenshots/assertScreenshotCroppedHEIC.heic
     cropOn:
       id: "testContainer"

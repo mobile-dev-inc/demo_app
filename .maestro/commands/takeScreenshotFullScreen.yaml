@@ -7,8 +7,8 @@ tags:
 - waitForAnimationToEnd
 
 - takeScreenshot:
-    path: workspaces/demo_app/screenshots/e2e_take_then_assert_full_screen
+    path: ./screenshots/e2e_take_then_assert_full_screen
 
 - assertScreenshot:
-    path: workspaces/demo_app/screenshots/e2e_take_then_assert_full_screen.png
+    path: ./screenshots/e2e_take_then_assert_full_screen.png
     thresholdPercentage: 95

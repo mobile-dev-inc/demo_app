@@ -7,7 +7,7 @@ tags:
 - waitForAnimationToEnd
 
 - assertScreenshot:
-    path: workspaces/demo_app/screenshots/assertScreenshotCroppedJPG.jpg
+    path: ./screenshots/assertScreenshotCroppedJPG.jpg
     thresholdPercentage: 99.9
     cropOn:
       id: "testContainer"
