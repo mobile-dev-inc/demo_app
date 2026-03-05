@@ -4,7 +4,7 @@ tags:
 ---
 - launchApp:
     clearState: true
-- tapOn: Swipe Test
+- tapOn: Gesture Tester
 - swipe:
     start: 50%, 15%
     end: 15%, 50%

@@ -1,0 +1,7 @@
+appId: com.example.example
+---
+- launchApp # For idempotence of sections
+
+- tapOn: 'Gesture Tester'
+- doubleTapOn: 'Double tap me'
+- assertVisible: 'Double tapped!'

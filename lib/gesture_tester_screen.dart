@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 
-class SwipingScreen extends StatefulWidget {
-  const SwipingScreen({super.key});
+class GestureTesterScreen extends StatefulWidget {
+  const GestureTesterScreen({super.key});
 
   @override
-  State<SwipingScreen> createState() => _SwipingScreenState();
+  State<GestureTesterScreen> createState() => _GestureTesterScreenState();
 }
 
-class _SwipingScreenState extends State<SwipingScreen> {
+class _GestureTesterScreenState extends State<GestureTesterScreen> {
   List<Color> containerColors = [Colors.red, Colors.red, Colors.red];
   bool finished = false;
+  bool _longPressed = false;
+  bool _doubleTapped = false;
 
   void _onContainerTouched(int index) {
     setState(() {
@@ -95,7 +97,49 @@ class _SwipingScreenState extends State<SwipingScreen> {
               ),
             ),
             if (containerColors.every((c) => c == Colors.green) && finished)
-              const Center(child: Text('All green'))
+              const Center(child: Text('All green')),
+            Positioned(
+              top: MediaQuery.of(context).padding.top + 16,
+              right: 16,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  GestureDetector(
+                    onDoubleTap: () => setState(() => _doubleTapped = true),
+                    child: Container(
+                      width: 80,
+                      height: 40,
+                      color: Colors.blue,
+                      child: const Center(
+                        child: Text(
+                          'Double tap me',
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (_doubleTapped) const Text('Double tapped!'),
+                  const SizedBox(height: 8),
+                  GestureDetector(
+                    onLongPress: () => setState(() => _longPressed = true),
+                    child: Container(
+                      width: 80,
+                      height: 40,
+                      color: Colors.purple,
+                      child: const Center(
+                        child: Text(
+                          'Long press me',
+                          style: TextStyle(color: Colors.white, fontSize: 10),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (_longPressed) const Text('Long pressed!'),
+                ],
+              ),
+            ),
           ],
         ),
       ),
