@@ -3,7 +3,7 @@ name: Issue 565 (swipe)
 ---
 - launchApp:
     clearState: false
-- tapOn: Swipe Test
+- tapOn: Gesture Tester
 - swipe:  
     start: 50%, 15%
     end: 15%, 50%

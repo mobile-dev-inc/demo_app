@@ -5,7 +5,7 @@ appId: com.example.example
 - extendedWaitUntil:
     timeout: 10000
     visible:
-      text: 'Swipe Test'
+      text: 'Gesture Tester'
 
 - extendedWaitUntil:
     timeout: 100

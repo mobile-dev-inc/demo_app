@@ -7,7 +7,7 @@ import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
 import 'package:demo_app/location_screen.dart';
 import 'package:demo_app/nesting_screen.dart';
-import 'package:demo_app/swiping_screen.dart';
+import 'package:demo_app/gesture_tester_screen.dart';
 import 'package:demo_app/sensors_screen.dart';
 import 'package:demo_app/webview.dart';
 import 'dart:io' show Platform;
@@ -123,10 +123,10 @@ class _MyHomePageState extends State<MyHomePage> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const SwipingScreen()),
+                    MaterialPageRoute(builder: (_) => const GestureTesterScreen()),
                   );
                 },
-                child: const Text('Swipe Test'),
+                child: const Text('Gesture Tester'),
               ),
               ElevatedButton(
                 onPressed: () {

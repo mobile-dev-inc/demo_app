@@ -50,7 +50,11 @@ env:
     file: commands/copyTextFrom.yaml
     label: copyTextFrom
 
-# TODO: doubleTapOn
+- runFlow:
+    when:
+      true: ${RUN_ONLY == "" || RUN_ONLY == "doubleTapOn"}
+    file: commands/doubleTapOn.yaml
+    label: doubleTapOn
 
 - runFlow:
     when:
@@ -120,7 +124,11 @@ env:
     file: commands/launchApp.yaml
     label: launchApp
 
-# TODO: longPressOn
+- runFlow:
+    when:
+      true: ${RUN_ONLY == "" || RUN_ONLY == "longPressOn"}
+    file: commands/longPressOn.yaml
+    label: longPressOn
 
 # TODO: openLink (probably after #2058)
 
