@@ -5,6 +5,7 @@ import 'package:demo_app/form_screen.dart';
 import 'package:demo_app/input_screen.dart';
 import 'package:demo_app/issue_1619_repro.dart';
 import 'package:demo_app/issue_1677_repro.dart';
+import 'package:demo_app/location_screen.dart';
 import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/swiping_screen.dart';
 import 'package:demo_app/sensors_screen.dart';
@@ -95,6 +96,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: const Text('Sensors'),
                 ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => const LocationScreen()),
+                  );
+                },
+                child: const Text('Location Test'),
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(
