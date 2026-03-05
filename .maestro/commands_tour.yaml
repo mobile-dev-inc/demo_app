@@ -114,6 +114,7 @@ env:
 - runFlow:
     when:
       true: ${RUN_ONLY == "" || RUN_ONLY == "killApp"}
+      platform: android
     file: commands/killApp.yaml
     label: killApp
     optional: true # FIXME: Why is this failing?
@@ -183,7 +184,11 @@ env:
 
 # TODO: startRecording
 
-# TODO: stopApp
+- runFlow:
+    when:
+      true: ${RUN_ONLY == "" || RUN_ONLY == "stopApp"}
+    file: commands/stopApp.yaml
+    label: stopApp
 
 # TODO: stopRecording
 
