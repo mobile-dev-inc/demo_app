@@ -172,7 +172,12 @@ env:
 
 # TODO: scrollUntilVisible
 
-# TODO: setAirplaneMode
+- runFlow:
+    when:
+      true: ${RUN_ONLY == "" || RUN_ONLY == "setAirplaneMode"}
+      platform: android
+    file: commands/setAirplaneMode.yaml
+    label: setAirplaneMode
 
 # TODO: setLocation
 
@@ -198,7 +203,12 @@ env:
 
 # TODO: tapOn
 
-# TODO: toggleAirplaneMode
+- runFlow:
+    when:
+      true: ${RUN_ONLY == "" || RUN_ONLY == "toggleAirplaneMode"}
+      platform: android
+    file: commands/toggleAirplaneMode.yaml
+    label: toggleAirplaneMode
 
 # TODO: travel
 
