@@ -1,4 +1,6 @@
 appId: com.example.example
+tags:
+  - passing
 ---
 
 # runFlow with file: isn't included since it's in the root flow
