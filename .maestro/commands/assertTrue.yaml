@@ -1,6 +1,8 @@
 appId: com.example.example
 tags:
   - passing
+env:
+  THING: "five"
 ---
 
 - launchApp # For idempotence of sections
