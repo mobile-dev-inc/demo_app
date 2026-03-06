@@ -1,4 +1,6 @@
 appId: com.example.example
+tags:
+  - passing
 ---
 - launchApp:
     appId: com.example.example
