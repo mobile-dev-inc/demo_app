@@ -31,9 +31,6 @@ jobs:
             channel: stable
             flutter-version-file: pubspec.yaml
 
-      - name: Install dependencies
-        run: flutter pub get
-
       - name: Run lints
         run: flutter analyze
       
