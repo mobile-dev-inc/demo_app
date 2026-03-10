@@ -38,3 +38,21 @@ jobs:
 
       - name: Build iOS app
         run: flutter build ios --simulator
+
+      - name: Upload Android app
+        uses: actions/upload-artifact@v7
+        if: success() || failure()
+        with:
+          name: demo_app.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Upload iOS app
+        uses: actions/upload-artifact@v7
+        if: success() || failure()
+        with:
+          name: demo_app.app
+          path: build/ios/iphonesimulator/Runner.app
+          if-no-files-found: error
+          retention-days: 7
