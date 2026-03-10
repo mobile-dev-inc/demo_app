@@ -3,22 +3,40 @@ name: Build & Test
 on:
   workflow_dispatch:
   pull_request:
-    paths:
-      - '.github/workflows/pr.yaml'
-      - 'analysis_options.yaml'
-      - 'android/**'
-      - 'ios/**'
-      - 'lib/**'
-      - 'pubspec.lock'
-      - 'pubspec.yaml'
-      - 'test/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      app: ${{ steps.filter.outputs.app || github.event_name == 'workflow_dispatch' }}
+      maestro: ${{ steps.filter.outputs.maestro || github.event_name == 'workflow_dispatch' }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dorny/paths-filter@v3
+        id: filter
+        if: github.event_name == 'pull_request'
+        with:
+          filters: |
+            app:
+              - '.github/actions/**'
+              - '.github/workflows/pr.yaml'
+              - 'analysis_options.yaml'
+              - 'android/**'
+              - 'ios/**'
+              - 'lib/**'
+              - 'pubspec.lock'
+              - 'pubspec.yaml'
+              - 'test/**'
+            maestro:
+              - '.maestro/**'
+
   build_and_test:
+    needs: [filter]
+    if: needs.filter.outputs.app == 'true'
     runs-on: macos-latest
 
     steps:
@@ -65,4 +83,203 @@ jobs:
           name: demo_app.app
           path: build/ios/iphonesimulator/Runner.app
           if-no-files-found: error
+          retention-days: 7
+
+  test-android:
+    needs: [filter, build_and_test]
+    if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build_and_test.result != 'failure'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    env:
+      ANDROID_HOME: /home/runner/androidsdk
+      ANDROID_SDK_ROOT: /home/runner/androidsdk
+      ANDROID_AVD_HOME: /home/runner/.config/.android/avd/
+      ANDROID_OS_IMAGE: system-images;android-32;google_apis;x86_64
+      ANDROID_PLATFORM: platforms;android-34
+
+    steps:
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Maestro
+        uses: ./.github/actions/setup-maestro
+
+      - name: Download built APK
+        if: needs.build_and_test.result == 'success'
+        uses: actions/download-artifact@v7
+        with:
+          name: demo_app.apk
+          path: apk/
+
+      - name: Download published APK
+        if: needs.build_and_test.result != 'success'
+        run: |
+          mkdir -p apk
+          curl -fsSL https://storage.googleapis.com/mobile.dev/cli_e2e/demo_app.apk \
+            -o apk/app-release.apk
+
+      - name: Set up bartek-scripts
+        run: |
+          git clone https://github.com/mobile-dev-inc/bartek-scripts.git $HOME/scripts
+          echo "$HOME/scripts/bin" >> $GITHUB_PATH
+
+      - name: Set up Android Command-line Tools
+        run: |
+          install_android_sdk https://dl.google.com/android/repository/commandlinetools-linux-12266719_latest.zip
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+
+      - name: Set up Android SDK components
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager --install emulator
+          echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
+          sdkmanager --install "platform-tools"
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          sdkmanager --install "$ANDROID_PLATFORM"
+          sdkmanager --install "$ANDROID_OS_IMAGE"
+
+      - name: Create AVD
+        run: |
+          avdmanager -s create avd \
+            --package "$ANDROID_OS_IMAGE" \
+            --name "MyAVD"
+          cat << EOF >> ~/.config/.android/avd/MyAVD.avd/config.ini
+          hw.cpu.ncore=2
+          hw.gpu.enabled=yes
+          hw.gpu.mode=swiftshader_indirect
+          hw.ramSize=3072
+          disk.dataPartition.size=4G
+          vm.heapSize=576
+          hw.lcd.density=440
+          hw.lcd.height=2220
+          hw.lcd.width=1080
+          EOF
+
+      - name: Run AVD
+        run: |
+          emulator @MyAVD \
+            -verbose -no-snapshot -no-window -no-audio -no-boot-anim -accel on -camera-back none -qemu -m 3072 \
+            >~/emulator_stdout.log \
+            2>~/emulator_stderr.log &
+
+      - name: Wait for AVD to start up
+        run: |
+          adb wait-for-device && echo 'Emulator device online'
+          adb wait-for-device shell 'while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done;' && echo 'Emulator booted'
+          while true; do
+            adb shell service list | grep 'package' && echo 'service "package" is active!' && break
+            echo 'waiting for service "package" to start'
+            sleep 1
+          done
+
+      - name: Install APK
+        run: adb install apk/app-release.apk
+
+      - name: Start screen recording
+        run: |
+          adb shell screenrecord /sdcard/screenrecord.mp4 &
+          echo $! > ~/screenrecord.pid
+
+      - name: Run Maestro tests
+        run: |
+          echo "Running tests tagged with 'passing' and not tagged with 'ios,web,android_device_configuration,ios_device_configuration'"
+          maestro --verbose test --platform android --include-tags passing --exclude-tags ios,web,android_device_configuration,ios_device_configuration .maestro
+          
+      - name: Stop screen recording
+        if: success() || failure()
+        run: |
+          kill -SIGINT "$(cat ~/screenrecord.pid)" || echo "screenrecord already stopped"
+          sleep 5
+          adb pull /sdcard/screenrecord.mp4 ~/screenrecord.mp4
+
+      - name: Upload Maestro logs
+        uses: actions/upload-artifact@v7
+        if: success() || failure()
+        with:
+          name: maestro-logs-android
+          path: ~/.maestro
+          retention-days: 7
+          include-hidden-files: true
+
+      - name: Upload screen recording
+        uses: actions/upload-artifact@v7
+        if: success() || failure()
+        with:
+          name: maestro-screenrecord-android.mp4
+          path: ~/screenrecord.mp4
+          retention-days: 7
+
+  test-ios:
+    needs: [filter, build_and_test]
+    if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build_and_test.result != 'failure'
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Maestro
+        uses: ./.github/actions/setup-maestro
+
+      - name: Download built app
+        if: needs.build_and_test.result == 'success'
+        uses: actions/download-artifact@v7
+        with:
+          name: demo_app.app
+          path: app/
+
+      - name: Download published app
+        if: needs.build_and_test.result != 'success'
+        run: |
+          curl -fsSL https://storage.googleapis.com/mobile.dev/cli_e2e/demo_app.zip \
+            -o demo_app.zip
+          unzip demo_app.zip -d app/
+
+      - name: Boot iOS Simulator
+        run: |
+          RUNTIME=$(xcrun simctl list runtimes -j | jq -r '[.runtimes[] | select(.isAvailable and (.name | startswith("iOS")))] | last | .identifier')
+          UDID=$(xcrun simctl create "TestPhone" "iPhone 16" "$RUNTIME")
+          xcrun simctl boot "$UDID"
+          echo "SIMULATOR_UDID=$UDID" >> $GITHUB_ENV
+
+      - name: Install app
+        run: xcrun simctl install booted app/demo_app.app
+
+      - name: Start screen recording
+        run: |
+          xcrun simctl io booted recordVideo --codec h264 ~/screenrecord.mp4 &
+          echo $! > ~/screenrecord.pid
+
+      - name: Run Maestro tests
+        run: 
+          echo "Running tests tagged with 'passing' and not tagged with 'android,web,android_device_configuration,ios_device_configuration'"
+          maestro --verbose test --platform ios --include-tags passing --exclude-tags android,web,android_device_configuration,ios_device_configuration .maestro
+
+      - name: Stop screen recording
+        if: success() || failure()
+        run: kill -SIGINT "$(cat ~/screenrecord.pid)" || echo "screenrecord already stopped"
+
+      - name: Upload Maestro logs
+        uses: actions/upload-artifact@v7
+        if: success() || failure()
+        with:
+          name: maestro-logs-ios
+          path: ~/.maestro
+          retention-days: 7
+          include-hidden-files: true
+
+      - name: Upload screen recording
+        uses: actions/upload-artifact@v7
+        if: success() || failure()
+        with:
+          name: maestro-screenrecord-ios.mp4
+          path: ~/screenrecord.mp4
           retention-days: 7
