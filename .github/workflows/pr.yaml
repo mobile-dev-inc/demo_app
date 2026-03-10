@@ -3,6 +3,15 @@ name: Build & Test
 on:
   workflow_dispatch:
   pull_request:
+    paths:
+      - '.github/workflows/pr.yaml'
+      - 'analysis_options.yaml'
+      - 'android/**'
+      - 'ios/**'
+      - 'lib/**'
+      - 'pubspec.lock'
+      - 'pubspec.yaml'
+      - 'test/**'
 
 jobs:
   build_and_test:
