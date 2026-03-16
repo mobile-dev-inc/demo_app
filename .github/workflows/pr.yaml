@@ -191,7 +191,7 @@ jobs:
         run: |
           maestro -v
           echo "Running tests tagged with 'passing' and not tagged with 'ios,web,android_device_configuration,ios_device_configuration'"
-          maestro --verbose test --platform android --include-tags passing --exclude-tags ios,web,android_device_configuration,ios_device_configuration .maestro
+          maestro --verbose test --platform android --include-tags passing --exclude-tags "ios,web,android_device_configuration,ios_device_configuration" .maestro
           
       - name: Stop screen recording
         if: success() || failure()
@@ -205,7 +205,7 @@ jobs:
         if: success() || failure()
         with:
           name: maestro-logs-android
-          path: ~/.maestro
+          path: ~/.maestro/tests
           retention-days: 7
           include-hidden-files: true
 
@@ -263,7 +263,7 @@ jobs:
         run: |
           maestro -v
           echo "Running tests tagged with 'passing' and not tagged with 'android,web,android_device_configuration,ios_device_configuration'"
-          maestro --verbose test --platform ios --include-tags passing --exclude-tags android,web,android_device_configuration,ios_device_configuration .maestro
+          maestro --verbose test --platform ios --include-tags passing --exclude-tags "android,web,android_device_configuration,ios_device_configuration" .maestro
 
       - name: Stop screen recording
         if: success() || failure()
@@ -274,7 +274,7 @@ jobs:
         if: success() || failure()
         with:
           name: maestro-logs-ios
-          path: ~/.maestro
+          path: ~/.maestro/tests
           retention-days: 7
           include-hidden-files: true
 
