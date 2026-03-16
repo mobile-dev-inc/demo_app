@@ -9,5 +9,5 @@ tags:
     id: 'textInput'
 - inputRandomPersonName
 - assertVisible: 
-    text: '[A-Z][a-z]+ [A-Z][a-z]+'
+    text: "[A-Z][a-z]+ [A-Z][A-Za-z']+"
     id: 'textInput'
