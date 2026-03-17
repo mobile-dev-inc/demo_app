@@ -1,5 +1,10 @@
 name: Set up Maestro
-description: Install Java 21 and the latest Maestro CLI
+description: Install Java 21 and the Maestro CLI
+
+inputs:
+  version:
+    description: '"stable" for the latest release, "main" for a HEAD build, or a specific version e.g. "1.38.1"'
+    default: stable
 
 runs:
   using: composite
@@ -13,5 +18,13 @@ runs:
     - name: Install Maestro CLI
       shell: bash
       run: |
-        curl -fsSL "https://get.maestro.mobile.dev" | bash
-        echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+        if [ "${{ inputs.version }}" = "main" ]; then
+          git clone --depth 1 --branch main https://github.com/mobile-dev-inc/maestro.git /tmp/maestro-src
+          cd /tmp/maestro-src
+          ./gradlew :maestro-cli:installDist
+          echo "/tmp/maestro-src/maestro-cli/build/install/maestro/bin" >> $GITHUB_PATH
+        else
+          [ "${{ inputs.version }}" != "stable" ] && export MAESTRO_VERSION="${{ inputs.version }}"
+          curl -fsSL "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+        fi

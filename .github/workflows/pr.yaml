@@ -122,11 +122,16 @@ jobs:
           retention-days: 7
 
   test-android:
-    name: Test on Android
+    name: Test on Android (${{ matrix.maestro-version }})
     needs: [filter, build-android]
     if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build-android.result != 'failure'
     runs-on: ubuntu-latest
     timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        maestro-version: [stable, main]
 
     env:
       ANDROID_HOME: /home/runner/androidsdk
@@ -148,6 +153,8 @@ jobs:
 
       - name: Set up Maestro
         uses: ./.github/actions/setup-maestro
+        with:
+          version: ${{ matrix.maestro-version }}
 
       - name: Download built APK
         if: needs.build-android.result == 'success'
@@ -242,7 +249,7 @@ jobs:
         uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
-          name: maestro-logs-android
+          name: maestro-logs-android-${{ matrix.maestro-version }}
           path: ~/.maestro/tests
           retention-days: 7
           include-hidden-files: true
@@ -251,16 +258,21 @@ jobs:
         uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
-          name: maestro-screenrecord-android.mp4
+          name: maestro-screenrecord-android-${{ matrix.maestro-version }}.mp4
           path: ~/screenrecord.mp4
           retention-days: 7
 
   test-ios:
-    name: Test on iOS
+    name: Test on iOS (${{ matrix.maestro-version }})
     needs: [filter, build-ios]
     if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build-ios.result != 'failure'
     runs-on: macos-latest
     timeout-minutes: 60
+
+    strategy:
+      fail-fast: false
+      matrix:
+        maestro-version: [stable, main]
 
     env:
       MAESTRO_EXAMPLE: test-value # Needed for environment-variables.yaml test
@@ -271,6 +283,8 @@ jobs:
 
       - name: Set up Maestro
         uses: ./.github/actions/setup-maestro
+        with:
+          version: ${{ matrix.maestro-version }}
 
       - name: Download built app
         if: needs.build-ios.result == 'success'
@@ -315,7 +329,7 @@ jobs:
         uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
-          name: maestro-logs-ios
+          name: maestro-logs-ios-${{ matrix.maestro-version }}
           path: ~/.maestro/tests
           retention-days: 7
           include-hidden-files: true
@@ -324,6 +338,6 @@ jobs:
         uses: actions/upload-artifact@v7
         if: success() || failure()
         with:
-          name: maestro-screenrecord-ios.mp4
+          name: maestro-screenrecord-ios-${{ matrix.maestro-version }}.mp4
           path: ~/screenrecord.mp4
           retention-days: 7
