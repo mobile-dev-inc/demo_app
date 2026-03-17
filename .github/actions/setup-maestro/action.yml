@@ -14,17 +14,43 @@ runs:
       with:
         distribution: zulu
         java-version: 21
+        cache: ${{ inputs.version == 'main' && 'gradle' || '' }}
 
-    - name: Install Maestro CLI
+    - name: Get Maestro HEAD SHA
+      id: maestro-sha
+      if: inputs.version == 'main'
       shell: bash
       run: |
-        if [ "${{ inputs.version }}" = "main" ]; then
-          git clone --depth 1 --branch main https://github.com/mobile-dev-inc/maestro.git /tmp/maestro-src
-          cd /tmp/maestro-src
-          ./gradlew :maestro-cli:installDist
-          echo "/tmp/maestro-src/maestro-cli/build/install/maestro/bin" >> $GITHUB_PATH
-        else
-          [ "${{ inputs.version }}" != "stable" ] && export MAESTRO_VERSION="${{ inputs.version }}"
-          curl -fsSL "https://get.maestro.mobile.dev" | bash
-          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
-        fi
+        set -euo pipefail
+        SHA=$(git ls-remote https://github.com/mobile-dev-inc/maestro.git refs/heads/main | cut -f1)
+        [ -n "$SHA" ] || { echo "Failed to resolve Maestro HEAD SHA"; exit 1; }
+        echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+    - name: Cache Maestro (main)
+      id: cache
+      if: inputs.version == 'main'
+      uses: actions/cache@v5
+      with:
+        path: ~/.maestro
+        key: maestro-main-${{ steps.maestro-sha.outputs.sha }}
+
+    - name: Install Maestro CLI (main)
+      if: inputs.version == 'main' && steps.cache.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        git clone --depth 1 --branch main https://github.com/mobile-dev-inc/maestro.git "$RUNNER_TEMP/maestro-src"
+        cd "$RUNNER_TEMP/maestro-src"
+        ./gradlew :maestro-cli:installDist
+        mkdir -p ~/.maestro
+        cp -r maestro-cli/build/install/maestro/. ~/.maestro/
+
+    - name: Install Maestro CLI
+      if: inputs.version != 'main'
+      shell: bash
+      run: |
+        [ "${{ inputs.version }}" != "stable" ] && export MAESTRO_VERSION="${{ inputs.version }}"
+        curl -fsSL "https://get.maestro.mobile.dev" | bash
+
+    - name: Add Maestro to PATH
+      shell: bash
+      run: echo "$HOME/.maestro/bin" >> $GITHUB_PATH
