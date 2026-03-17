@@ -39,7 +39,7 @@ jobs:
     name: Lint & test
     needs: [filter]
     if: needs.filter.outputs.app == 'true'
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -61,7 +61,7 @@ jobs:
   build-android:
     name: Build Android
     needs: [lint_and_test]
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
