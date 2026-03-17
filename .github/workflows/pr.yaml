@@ -10,6 +10,7 @@ concurrency:
 
 jobs:
   filter:
+    name: Detect changes
     runs-on: ubuntu-latest
     outputs:
       app: ${{ steps.filter.outputs.app || github.event_name == 'workflow_dispatch' }}
@@ -34,7 +35,8 @@ jobs:
             maestro:
               - '.maestro/**'
 
-  build_and_test:
+  lint_and_test:
+    name: Lint & test
     needs: [filter]
     if: needs.filter.outputs.app == 'true'
     runs-on: macos-latest
@@ -48,6 +50,7 @@ jobs:
         with:
           channel: stable
           flutter-version-file: pubspec.yaml
+          cache: true
 
       - name: Run lints
         run: flutter analyze
@@ -55,17 +58,31 @@ jobs:
       - name: Run tests
         run: flutter test
 
+  build-android:
+    name: Build Android
+    needs: [lint_and_test]
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+          cache: true
+
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
           distribution: zulu
           java-version: 21
+          cache: gradle
 
       - name: Build Android app
         run: flutter build apk
-
-      - name: Build iOS app
-        run: flutter build ios --simulator
 
       - name: Upload Android app
         uses: actions/upload-artifact@v7
@@ -75,6 +92,25 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
           if-no-files-found: error
           retention-days: 7
+
+  build-ios:
+    name: Build iOS
+    needs: [lint_and_test]
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version-file: pubspec.yaml
+          cache: true
+
+      - name: Build iOS app
+        run: flutter build ios --simulator
 
       - name: Upload iOS app
         uses: actions/upload-artifact@v7
@@ -86,8 +122,9 @@ jobs:
           retention-days: 7
 
   test-android:
-    needs: [filter, build_and_test]
-    if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build_and_test.result != 'failure'
+    name: Test on Android
+    needs: [filter, build-android]
+    if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build-android.result != 'failure'
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
@@ -113,14 +150,14 @@ jobs:
         uses: ./.github/actions/setup-maestro
 
       - name: Download built APK
-        if: needs.build_and_test.result == 'success'
+        if: needs.build-android.result == 'success'
         uses: actions/download-artifact@v7
         with:
           name: demo_app.apk
           path: apk/
 
       - name: Download published APK
-        if: needs.build_and_test.result != 'success'
+        if: needs.build-android.result != 'success'
         run: |
           mkdir -p apk
           curl -fsSL https://storage.googleapis.com/mobile.dev/cli_e2e/demo_app.apk \
@@ -193,7 +230,7 @@ jobs:
           maestro -v
           echo "Running tests tagged with 'passing' and not tagged with 'ios,web,android_device_configuration,ios_device_configuration'"
           maestro --verbose test --platform android --include-tags passing --exclude-tags "ios,web,android_device_configuration,ios_device_configuration" .maestro
-          
+
       - name: Stop screen recording
         if: success() || failure()
         run: |
@@ -219,8 +256,9 @@ jobs:
           retention-days: 7
 
   test-ios:
-    needs: [filter, build_and_test]
-    if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build_and_test.result != 'failure'
+    name: Test on iOS
+    needs: [filter, build-ios]
+    if: always() && (needs.filter.outputs.app == 'true' || needs.filter.outputs.maestro == 'true') && needs.build-ios.result != 'failure'
     runs-on: macos-latest
     timeout-minutes: 60
 
@@ -235,14 +273,14 @@ jobs:
         uses: ./.github/actions/setup-maestro
 
       - name: Download built app
-        if: needs.build_and_test.result == 'success'
+        if: needs.build-ios.result == 'success'
         uses: actions/download-artifact@v7
         with:
           name: demo_app.app
           path: app/demo_app.app
-        
+
       - name: Download published app
-        if: needs.build_and_test.result != 'success'
+        if: needs.build-ios.result != 'success'
         run: |
           curl -fsSL https://storage.googleapis.com/mobile.dev/cli_e2e/demo_app.zip \
             -o demo_app.zip
