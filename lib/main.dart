@@ -1,4 +1,5 @@
 import 'package:demo_app/connectivity_screen.dart';
+import 'package:demo_app/scrollable_list_screen.dart';
 import 'package:demo_app/cropped_screenshot_screen.dart';
 import 'package:demo_app/defects_screen.dart';
 import 'package:demo_app/notifications_permission_screen.dart';
@@ -83,132 +84,146 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              if (!kIsWeb)
+        padding: const EdgeInsets.all(8),
+        child: Column(
+          children: [
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              childAspectRatio: 3,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+              children: [
+                if (!kIsWeb)
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const SensorsScreen()),
+                      );
+                    },
+                    child: const Text('Sensors'),
+                  ),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(
-                      MaterialPageRoute(builder: (_) => const SensorsScreen()),
+                      MaterialPageRoute(builder: (_) => const LocationScreen()),
                     );
                   },
-                  child: const Text('Sensors'),
+                  child: const Text('Location Test'),
                 ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const LocationScreen()),
-                  );
-                },
-                child: const Text('Location Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const DefectsScreen()),
-                  );
-                },
-                child: const Text('Defects Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const NestingScreen()),
-                  );
-                },
-                child: const Text('Nesting Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const GestureTesterScreen()),
-                  );
-                },
-                child: const Text('Gesture Tester'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const FormScreen()),
-                  );
-                },
-                child: const Text('Form Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const InputScreen()),
-                  );
-                },
-                child: const Text('Input/Keyboard'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  const channel = MethodChannel('com.example.demo_app/password_test');
-                  channel.invokeMethod('openPasswordTest');
-                },
-                child: const Text('Password autofill Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const Issue1677Repro()),
-                  );
-                },
-                child: const Text('issue 1677 repro'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const Issue1619Repro()),
-                  );
-                },
-                child: const Text('issue 1619 repro'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const WebViewExample()),
-                  );
-                },
-                child: const Text('Webview Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const CroppedScreenshotScreen()),
-                  );
-                },
-                child: const Text('Cropped Screenshot Test'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const NotificationsPermissionScreen()),
-                  );
-                },
-                child: const Text('Notifications Permission'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => const ConnectivityScreen()),
-                  );
-                },
-                child: const Text('Connectivity Test'),
-              ),
-              const Text(
-                'You have pushed the button this many times',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
-          ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const DefectsScreen()),
+                    );
+                  },
+                  child: const Text('Defects Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const NestingScreen()),
+                    );
+                  },
+                  child: const Text('Nesting Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const GestureTesterScreen()),
+                    );
+                  },
+                  child: const Text('Gesture Tester'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const FormScreen()),
+                    );
+                  },
+                  child: const Text('Form Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const InputScreen()),
+                    );
+                  },
+                  child: const Text('Input/Keyboard'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    const channel = MethodChannel('com.example.demo_app/password_test');
+                    channel.invokeMethod('openPasswordTest');
+                  },
+                  child: const Text('Password autofill Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const Issue1677Repro()),
+                    );
+                  },
+                  child: const Text('issue 1677 repro'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const Issue1619Repro()),
+                    );
+                  },
+                  child: const Text('issue 1619 repro'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const WebViewExample()),
+                    );
+                  },
+                  child: const Text('Webview Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const CroppedScreenshotScreen()),
+                    );
+                  },
+                  child: const Text('Cropped Screenshot Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const NotificationsPermissionScreen()),
+                    );
+                  },
+                  child: const Text('Notifications Permission'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const ConnectivityScreen()),
+                    );
+                  },
+                  child: const Text('Connectivity Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const ScrollableListScreen()),
+                    );
+                  },
+                  child: const Text('Scrollable List'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            const Text('You have pushed the button this many times'),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+          ],
         ),
       ),
       floatingActionButton: Semantics(
