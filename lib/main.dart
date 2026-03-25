@@ -1,3 +1,4 @@
+import 'package:demo_app/animation_screen.dart';
 import 'package:demo_app/connectivity_screen.dart';
 import 'package:demo_app/scrollable_list_screen.dart';
 import 'package:demo_app/cropped_screenshot_screen.dart';
@@ -214,6 +215,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                   child: const Text('Scrollable List'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const AnimationScreen()),
+                    );
+                  },
+                  child: const Text('Animation Test'),
                 ),
               ],
             ),
