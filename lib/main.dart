@@ -13,12 +13,15 @@ import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/gesture_tester_screen.dart';
 import 'package:demo_app/sensors_screen.dart';
 import 'package:demo_app/webview.dart';
+import 'dart:async';
+import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_launch_arguments/flutter_launch_arguments.dart';
 
+final _navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   runApp(const MyApp());
@@ -33,6 +36,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
+      navigatorKey: _navigatorKey,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -49,6 +53,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   late final FlutterLaunchArguments _flutterLaunchArgumentsPlugin;
+  StreamSubscription<Uri>? _linkSubscription;
 
   int _counter = 0;
   int _delay = 0;
@@ -58,6 +63,28 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     _flutterLaunchArgumentsPlugin = FlutterLaunchArguments();
     _initializeVars();
+    _initDeepLinks();
+  }
+
+  Future<void> _initDeepLinks() async {
+    final appLinks = AppLinks();
+    final initialUri = await appLinks.getInitialLink();
+    if (initialUri != null) _handleLink(initialUri);
+    _linkSubscription = appLinks.uriLinkStream.listen(_handleLink);
+  }
+
+  void _handleLink(Uri uri) {
+    if (uri.scheme == 'example' && uri.host == 'form') {
+      _navigatorKey.currentState?.push(
+        MaterialPageRoute(builder: (_) => const FormScreen()),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _linkSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> _initializeVars() async {

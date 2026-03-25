@@ -1,4 +1,6 @@
 PODS:
+  - app_links (6.4.1):
+    - Flutter
   - connectivity_plus (0.0.1):
     - Flutter
   - Flutter (1.0.0)
@@ -18,6 +20,7 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - Flutter (from `Flutter`)
   - flutter_launch_arguments (from `.symlinks/plugins/flutter_launch_arguments/ios`)
@@ -28,6 +31,8 @@ DEPENDENCIES:
   - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
 
 EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   Flutter:
@@ -46,6 +51,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
+  app_links: 3dbc685f76b1693c66a6d9dd1e9ab6f73d97dc0a
   connectivity_plus: cb623214f4e1f6ef8fe7403d580fdad517d2f7dd
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_launch_arguments: 612fe2bfca02045d0bc01a54cb23cd5a562c9fdf
