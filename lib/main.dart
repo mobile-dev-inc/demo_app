@@ -18,7 +18,6 @@ import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_launch_arguments/flutter_launch_arguments.dart';
 
 final _navigatorKey = GlobalKey<NavigatorState>();
