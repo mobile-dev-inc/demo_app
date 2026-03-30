@@ -14,14 +14,26 @@ The built binaries are uploaded to a GCS bucket and downloaded by Maestro's E2E 
 # Run the app (requires a connected device or emulator)
 flutter run
 
-# Build Android APK
-flutter build apk
+# Build Android release APK (used for Maestro testing — debug APK also works)
+flutter build apk --release
 
 # Build iOS simulator app
 flutter build ios --simulator
 
 # Analyze code
 flutter analyze
+```
+
+## Installing Builds
+
+```sh
+# Install on the booted iOS simulator
+xcrun simctl install booted build/ios/iphonesimulator/Runner.app
+
+# Install Android APK (requires a running emulator or connected device)
+adb install build/app/outputs/flutter-apk/app-release.apk
+# Use -r to reinstall without uninstalling first if already installed
+adb install -r build/app/outputs/flutter-apk/app-release.apk
 ```
 
 ## Maestro Flow Commands
@@ -35,9 +47,19 @@ maestro test .maestro/
 # Run a single flow
 maestro test .maestro/fill_form.yaml
 
+# Run a single flow targeting a specific device
+maestro --device <device-id> test .maestro/fill_form.yaml
+
 # Run flows with a specific tag
 maestro test --include-tags passing .maestro/
 ```
+
+If the Maestro MCP `run_flow_files` tool has connection issues with launching apps on Android, use `maestro test` (CLI) instead.
+
+### Known Maestro Caveats
+
+- `setOrientation: upside_down` is silently ignored on iPhone simulators — it only works on Android and iPad. Use a `runFlow: when: platform: Android` guard if testing all 4 orientations.
+- Before running a flow that starts with `setOrientation`, always reset to portrait first so a stuck orientation from a previous run doesn't cause `tapOn` to miss elements off-screen.
 
 ## Architecture
 
@@ -46,7 +68,7 @@ maestro test --include-tags passing .maestro/
 `main.dart` is the home screen with buttons navigating to each test screen. Each screen is a standalone Dart file targeting a specific testing scenario:
 
 | File | Purpose |
-|---|---|
+| --- | --- |
 | `form_screen.dart` | Login form with email/password validation |
 | `input_screen.dart` | Keyboard and text input behaviors |
 | `swiping_screen.dart` | Swipe gesture testing |

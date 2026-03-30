@@ -1,4 +1,5 @@
 import 'package:demo_app/animation_screen.dart';
+import 'package:demo_app/orientation_screen.dart';
 import 'package:demo_app/connectivity_screen.dart';
 import 'package:demo_app/scrollable_list_screen.dart';
 import 'package:demo_app/cropped_screenshot_screen.dart';
@@ -249,6 +250,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     );
                   },
                   child: const Text('Animation Test'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (_) => const OrientationScreen()),
+                    );
+                  },
+                  child: const Text('Orientation Test'),
                 ),
               ],
             ),
