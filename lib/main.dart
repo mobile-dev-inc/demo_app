@@ -11,7 +11,7 @@ import 'package:demo_app/nesting_screen.dart';
 import 'package:demo_app/gesture_tester_screen.dart';
 import 'package:demo_app/sensors_screen.dart';
 import 'package:demo_app/webview.dart';
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -88,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              if (Platform.isAndroid)
+              if (!kIsWeb)
                 ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).push(
