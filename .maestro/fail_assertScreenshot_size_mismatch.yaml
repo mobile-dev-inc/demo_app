@@ -4,5 +4,5 @@ tags:
 ---
 - launchApp
 - assertScreenshot:
-    path: workspaces/demo_app/screenshots/assertScreenshotSizeMismatch.png
+    path: ./screenshots/assertScreenshotSizeMismatch.png
 
