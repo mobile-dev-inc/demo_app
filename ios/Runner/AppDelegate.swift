@@ -10,10 +10,10 @@ import UIKit
     GeneratedPluginRegistrant.register(with: self)
 
     // Set up method channel for password test screen
-    let controller = window?.rootViewController as! FlutterViewController
+    let messenger = registrar(forPlugin: "AppDelegateMethodChannels")!.messenger()
     let passwordTestChannel = FlutterMethodChannel(
       name: "com.example.demo_app/password_test",
-      binaryMessenger: controller.binaryMessenger
+      binaryMessenger: messenger
     )
 
     passwordTestChannel.setMethodCallHandler { [weak self] (call, result) in
